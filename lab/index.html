@@ -6,20 +6,13 @@
     <title>Test Jplus</title>
 </head>
 <body>
-    <div id='specialDiv'></div>
+    <div id='specialDiv' data-num='123'></div>
     <div></div>
     <div></div>
 
     <script src='../dist/jplus.js'></script>
     <script>
-        jplus.add('getName', function () {
-            console.log(this.localName)
-            return this.localName
-        })
-
-        console.log( $('div') )
-        console.log( $('#specialDiv').getName() )
-        console.log( $('<div></div>') )
+        console.log( $('#specialDiv').getAttr(['id', 'data-num']) )
     </script>
 </body>
 </html>

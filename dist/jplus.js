@@ -121,6 +121,58 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 var global = arguments[3];
 "use strict"; // Interfaces
 
+var __read = this && this.__read || function (o, n) {
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
+  if (!m) return o;
+  var i = m.call(o),
+      r,
+      ar = [],
+      e;
+
+  try {
+    while ((n === void 0 || n-- > 0) && !(r = i.next()).done) {
+      ar.push(r.value);
+    }
+  } catch (error) {
+    e = {
+      error: error
+    };
+  } finally {
+    try {
+      if (r && !r.done && (m = i["return"])) m.call(i);
+    } finally {
+      if (e) throw e.error;
+    }
+  }
+
+  return ar;
+};
+
+var __spread = this && this.__spread || function () {
+  for (var ar = [], i = 0; i < arguments.length; i++) {
+    ar = ar.concat(__read(arguments[i]));
+  }
+
+  return ar;
+};
+
+var __values = this && this.__values || function (o) {
+  var s = typeof Symbol === "function" && Symbol.iterator,
+      m = s && o[s],
+      i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+    next: function next() {
+      if (o && i >= o.length) o = void 0;
+      return {
+        value: o && o[i++],
+        done: !o
+      };
+    }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
+
 var globalAll = global;
 /*
 
@@ -138,7 +190,7 @@ function () {
     // Inject method into HTMLElement
     Object.prototype[methodName] = function () {
       // if Object is not HTMLELement throw an TypeError
-      if (this instanceof HTMLElement) return method.call(this, arguments);else throw new TypeError("You couldn't use " + methodName + " with non HTMLElement");
+      if (this instanceof HTMLElement) return method.call.apply(method, __spread([this], arguments));else throw new TypeError("You couldn't use " + methodName + " with non HTMLElement");
     }; // Make method enumerable
 
 
@@ -155,6 +207,7 @@ exports.jplus = globalAll.jplus;
 
   $(query: string): ELement | Element[]
     for searching in document by query alternative to document.querySelector/All()
+
 */
 
 globalAll.$ = function $(query) {
@@ -172,6 +225,61 @@ globalAll.$ = function $(query) {
 };
 
 exports.$ = globalAll.$;
+/*
+
+  getAttr(attributes: string | string[])
+
+  Setuations :
+    <div class="box" data-number="123" ></div>
+
+    getAttr() => { class : 'box', data-number : 123 }
+
+    getAttr('class') => 'box'
+
+    getAttr('data-number') => 123
+
+    getAttr(['class', 'data-number']) => { class : 'box', data-number : 123 }
+
+*/
+
+globalAll.jplus.add("getAttr", function (qualifiedName) {
+  var e_1, _a;
+
+  var element = this;
+  var attributes = {};
+
+  function evaluate(string) {
+    try {
+      return JSON.parse(string);
+    } catch (err) {
+      return string;
+    }
+  }
+
+  if (typeof qualifiedName == "string") return evaluate(String(element.getAttribute(qualifiedName)));
+  if (Array.isArray(qualifiedName)) qualifiedName.forEach(function (arg) {
+    attributes[arg] = evaluate(String(element.getAttribute(arg)));
+  });
+
+  try {
+    for (var _b = __values(Array.from(element.attributes)), _c = _b.next(); !_c.done; _c = _b.next()) {
+      var attribute = _c.value;
+      attributes[attribute.name] = evaluate(attribute.value);
+    }
+  } catch (e_1_1) {
+    e_1 = {
+      error: e_1_1
+    };
+  } finally {
+    try {
+      if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+    } finally {
+      if (e_1) throw e_1.error;
+    }
+  }
+
+  return attributes;
+});
 },{}],"C:/Users/USER/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -200,7 +308,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57889" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65385" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
