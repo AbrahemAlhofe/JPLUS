@@ -6,10 +6,20 @@
     <title>Test Jplus</title>
 </head>
 <body>
+    <div id='specialDiv'></div>
     <div></div>
-    <script src='../jplus.js'></script>
-    <script>
+    <div></div>
 
+    <script src='../dist/jplus.js'></script>
+    <script>
+        jplus.add('getName', function () {
+            console.log(this.localName)
+            return this.localName
+        })
+
+        console.log( $('div') )
+        console.log( $('#specialDiv').getName() )
+        console.log( $('<div></div>') )
     </script>
 </body>
 </html>
