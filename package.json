@@ -1,0 +1,22 @@
+{
+  "name": "jplus",
+  "version": "1.0.0",
+  "description": "jplus is javascript DOM utilities library",
+  "main": "jplus.js",
+  "author": "abrahem ali alhofe <alhofeabrahem88@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel watch src/index.ts",
+    "build" : "parcel build src/index.ts"
+  },
+  "private": false,
+  "devDependencies": {
+    "jest": "^26.1.0",
+    "parcel": "^2.0.0-beta.1",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  }
+}
