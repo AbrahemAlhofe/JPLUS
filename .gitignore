@@ -2,3 +2,6 @@ node_modules
 .cache
 .parcel-cache
 yarn-error.log
+dist/index.html
+dist/jplus.*.js
+dist/jplus.*.js.map
