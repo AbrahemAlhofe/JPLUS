@@ -6,13 +6,15 @@
     <title>Test Jplus</title>
 </head>
 <body>
-    <div id='specialDiv' data-num='123'></div>
+    <div id='specialDiv' data-num='123' style='color: red'></div>
     <div></div>
     <div></div>
 
     <script src='../dist/jplus.js'></script>
     <script>
-        console.log( $('#specialDiv').getAttr(['id', 'data-num']) )
+        console.log( $('#specialDiv').css() )
+        console.log( $('#specialDiv').css('color') )
+        console.log( $('#specialDiv').css({ color: 'blue' }) )
     </script>
 </body>
 </html>

@@ -121,6 +121,8 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 var global = arguments[3];
 "use strict"; // Interfaces
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 var __read = this && this.__read || function (o, n) {
   var m = typeof Symbol === "function" && o[Symbol.iterator];
   if (!m) return o;
@@ -245,7 +247,8 @@ exports.$ = globalAll.$;
 globalAll.jplus.add("getAttr", function (qualifiedName) {
   var e_1, _a;
 
-  var element = this;
+  var _this = this;
+
   var attributes = {};
 
   function evaluate(string) {
@@ -256,13 +259,13 @@ globalAll.jplus.add("getAttr", function (qualifiedName) {
     }
   }
 
-  if (typeof qualifiedName == "string") return evaluate(String(element.getAttribute(qualifiedName)));
+  if (typeof qualifiedName == "string") return evaluate(String(this.getAttribute(qualifiedName)));
   if (Array.isArray(qualifiedName)) qualifiedName.forEach(function (arg) {
-    attributes[arg] = evaluate(String(element.getAttribute(arg)));
+    attributes[arg] = evaluate(String(_this.getAttribute(arg)));
   });
 
   try {
-    for (var _b = __values(Array.from(element.attributes)), _c = _b.next(); !_c.done; _c = _b.next()) {
+    for (var _b = __values(Array.from(this.attributes)), _c = _b.next(); !_c.done; _c = _b.next()) {
       var attribute = _c.value;
       attributes[attribute.name] = evaluate(attribute.value);
     }
@@ -279,6 +282,47 @@ globalAll.jplus.add("getAttr", function (qualifiedName) {
   }
 
   return attributes;
+});
+/*
+  css( property: string, pesoudElt: null )
+
+    Behaviour :
+
+      <div style='color: red'></div>
+
+      css() => { color: "red" , ... }
+
+      css('color') => 'red'
+
+      css({ color: 'blue' }) => <div style='color: blue'></div>
+*/
+
+globalAll.jplus.add("css", function css(property, pesoudElt) {
+  var _this = this;
+
+  if (pesoudElt === void 0) {
+    pesoudElt = null;
+  }
+
+  if (property === undefined) return this.style;
+
+  if (Array.isArray(property)) {
+    var properties_1 = {};
+    property.forEach(function (property) {
+      return properties_1[property] = css.call(_this, property);
+    });
+    return properties_1;
+  }
+
+  if (_typeof(property) === 'object' && !Array.isArray(property)) {
+    var properties = property;
+
+    for (var property_1 in properties) {
+      this.style.setProperty(property_1, properties[property_1]);
+    }
+  }
+
+  return window.getComputedStyle(this, pesoudElt).getPropertyValue(property);
 });
 },{}],"C:/Users/USER/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -308,7 +352,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65385" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61725" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

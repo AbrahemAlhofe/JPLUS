@@ -69,9 +69,9 @@ exports.$ = globalAll.$
 */
 
 globalAll.jplus.add("getAttr", function (
+  this: HTMLElement,
   qualifiedName: string | string[]
 ): null | string | number | { [key: string]: any } {
-  const element: HTMLElement = this;
   const attributes: { [key: string]: any } = {};
 
   function evaluate (string: string) {
@@ -82,13 +82,46 @@ globalAll.jplus.add("getAttr", function (
     }
   }
 
-  if ( typeof qualifiedName == "string" ) return evaluate( String( element.getAttribute(qualifiedName) ) );
+  if ( typeof qualifiedName == "string" ) return evaluate( String( this.getAttribute(qualifiedName) ) );
 
   if ( Array.isArray( qualifiedName ) ) qualifiedName.forEach(arg => {
-    attributes[arg] = evaluate(String(element.getAttribute(arg)));
+    attributes[arg] = evaluate(String(this.getAttribute(arg)));
   })
 
-  for ( let attribute of Array.from( element.attributes ) ) attributes[ attribute.name ] = evaluate( attribute.value )
+  for ( let attribute of Array.from( this.attributes ) ) attributes[ attribute.name ] = evaluate( attribute.value )
 
   return attributes;
 });
+
+/*
+  css( property: string, pesoudElt: null )
+
+    Behaviour :
+
+      <div style='color: red'></div>
+
+      css() => { color: "red" , ... }
+
+      css('color') => 'red'
+
+      css({ color: 'blue' }) => <div style='color: blue'></div>
+*/
+
+globalAll.jplus.add("css", function css (this: HTMLElement, property: string, pesoudElt=null) {
+  if ( property === undefined ) return this.style
+
+  if ( Array.isArray( property ) ) {
+    const properties: { [key: string] : any } = {}
+    property.forEach((property: string) => properties[property] = css.call(this, property))
+    return properties
+  }
+
+  if ( typeof property === 'object' && !Array.isArray(property) ) {
+    const properties: { [key: string] : any } = property
+    
+    for ( let property in properties )
+      this.style.setProperty( property, properties[property] );
+  }
+
+  return window.getComputedStyle(this, pesoudElt).getPropertyValue(property);
+})
