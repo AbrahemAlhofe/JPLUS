@@ -6,15 +6,13 @@
     <title>Test Jplus</title>
 </head>
 <body>
-    <div id='specialDiv' data-num='123' style='color: red'></div>
+    <button id='specialDiv' data-num='123' style='color: red'> Click </button>
     <div></div>
     <div></div>
 
     <script src='../dist/jplus.js'></script>
     <script>
-        console.log( $('#specialDiv').css() )
-        console.log( $('#specialDiv').css('color') )
-        console.log( $('#specialDiv').css({ color: 'blue' }) )
+        $('#specialDiv').on('click', 'mouseover', () => console.log('click'))
     </script>
 </body>
 </html>

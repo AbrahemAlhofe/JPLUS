@@ -320,9 +320,37 @@ globalAll.jplus.add("css", function css(property, pesoudElt) {
     for (var property_1 in properties) {
       this.style.setProperty(property_1, properties[property_1]);
     }
+
+    return;
   }
 
   return window.getComputedStyle(this, pesoudElt).getPropertyValue(property);
+});
+/*
+  on(...events, callBack)
+
+  Behaviour
+    
+    on('click', () => console.log('click')) => when element was clicked log : click
+
+    on( 'click', 'mousedown', () => console.log('click', 'mousedown') ) when element was clicked or mousedown log : click
+*/
+
+globalAll.jplus.add("on", function on() {
+  var _this = this;
+
+  var args = [];
+
+  for (var _i = 0; _i < arguments.length; _i++) {
+    args[_i] = arguments[_i];
+  }
+
+  var events = Array.from(args).slice(0, args.length - 1);
+  var callBack = args[args.length - 1];
+  if (events.length !== 1) return events.forEach(function (event) {
+    return on.call(_this, event, callBack);
+  });
+  this.addEventListener(events[0], callBack);
 });
 },{}],"C:/Users/USER/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -352,7 +380,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61725" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63785" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

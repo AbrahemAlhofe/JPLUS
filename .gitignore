@@ -5,3 +5,5 @@ yarn-error.log
 dist/index.html
 dist/jplus.*.js
 dist/jplus.*.js.map
+dist/index.js
+dist/index.js.map

@@ -121,7 +121,27 @@ globalAll.jplus.add("css", function css (this: HTMLElement, property: string, pe
     
     for ( let property in properties )
       this.style.setProperty( property, properties[property] );
+    
+    return
   }
 
   return window.getComputedStyle(this, pesoudElt).getPropertyValue(property);
+})
+
+/*
+  on(...events, callBack)
+
+  Behaviour 
+    
+    on('click', () => console.log('click')) => when element was clicked log : click
+
+    on( 'click', 'mousedown', () => console.log('click', 'mousedown') ) when element was clicked or mousedown log : click
+*/
+globalAll.jplus.add("on", function on(this: HTMLElement, ...args: any[]) {
+  const events = Array.from( args ).slice(0, args.length - 1)
+  const callBack = args[ args.length - 1 ]
+
+  if ( events.length !== 1 ) return events.forEach((event) => on.call(this, event, callBack))
+
+  this.addEventListener(events[0], callBack);
 })
