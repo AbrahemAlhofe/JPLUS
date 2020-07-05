@@ -374,7 +374,7 @@ globalAll.jplus.add("on", function on() {
     wrapWith() => TypeError JPLUS [ wrapWith ] : wrapper must be an HTMLElement
 */
 
-globalAll.jplus.add("wrapWith", function on(wrapper, isWithChildren) {
+globalAll.jplus.add("wrapWith", function wrapWith(wrapper, isWithChildren) {
   if (isWithChildren === void 0) {
     isWithChildren = true;
   }
@@ -388,6 +388,22 @@ globalAll.jplus.add("wrapWith", function on(wrapper, isWithChildren) {
   }
 
   return wrapper;
+});
+/*
+
+    unWrap()
+
+    Behavior :
+      <div><span></span></div>
+
+      unWrap() => <span></span>
+*/
+
+globalAll.jplus.add('unWrap', function unWrap() {
+  var parentElement = this.parentElement;
+  if (parentElement === null) throw new TypeError("JPLUS [ unWrap ] : element has not parent");
+  parentElement.replaceWith(this);
+  return parentElement;
 });
 },{}],"C:/Users/USER/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -417,7 +433,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60988" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62665" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

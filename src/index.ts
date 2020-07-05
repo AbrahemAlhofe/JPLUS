@@ -137,7 +137,7 @@ globalAll.jplus.add("css", function css (this: HTMLElement, property: string, pe
 
     on( 'click', 'mousedown', () => console.log('click', 'mousedown') ) when element was clicked or mousedown log : click
 */
-globalAll.jplus.add("on", function on(this: HTMLElement, ...args: any[]) {
+globalAll.jplus.add("on", function on(this: HTMLElement, ...args: any[]): void {
   const events = Array.from( args ).slice(0, args.length - 1)
   const callBack = args[ args.length - 1 ]
 
@@ -167,7 +167,7 @@ globalAll.jplus.add("on", function on(this: HTMLElement, ...args: any[]) {
 
     wrapWith() => TypeError JPLUS [ wrapWith ] : wrapper must be an HTMLElement
 */
-globalAll.jplus.add("wrapWith", function on(this: HTMLElement, wrapper: HTMLElement, isWithChildren: boolean = true):HTMLElement {
+globalAll.jplus.add("wrapWith", function wrapWith(this: HTMLElement, wrapper: HTMLElement, isWithChildren: boolean = true):HTMLElement {
   if ( !(wrapper instanceof HTMLElement) ) throw new TypeError(`JPLUS [ wrapWith ] : wrapper must be an HTMLElement`)
 
   wrapper.appendChild(this.cloneNode(isWithChildren));
@@ -178,4 +178,24 @@ globalAll.jplus.add("wrapWith", function on(this: HTMLElement, wrapper: HTMLElem
   }
 
   return wrapper
+})
+
+/*
+
+    unWrap()
+
+    Behavior :
+      <div><span></span></div>
+
+      unWrap() => <span></span>
+*/
+
+globalAll.jplus.add('unWrap', function unWrap(this: HTMLElement): HTMLElement {
+  const parentElement: HTMLElement | null= this.parentElement
+  
+  if ( parentElement === null ) throw new TypeError(`JPLUS [ unWrap ] : element has not parent`)
+
+  parentElement.replaceWith(this);
+  
+  return parentElement
 })
