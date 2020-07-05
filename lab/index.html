@@ -6,13 +6,11 @@
     <title>Test Jplus</title>
 </head>
 <body>
-    <button id='specialDiv' data-num='123' style='color: red'> Click </button>
-    <div></div>
-    <div></div>
+    <span id='wrapped'><span>HTML</span></span>
 
     <script src='../dist/jplus.js'></script>
     <script>
-        $('#specialDiv').on('click', 'mouseover', () => console.log('click'))
+        console.log( $('span#wrapped').wrapWith() )
     </script>
 </body>
 </html>

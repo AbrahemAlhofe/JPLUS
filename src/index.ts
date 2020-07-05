@@ -145,3 +145,37 @@ globalAll.jplus.add("on", function on(this: HTMLElement, ...args: any[]) {
 
   this.addEventListener(events[0], callBack);
 })
+
+/*
+  wrapWith(wrapper: HTMLElement, isWithChildren: boolean)
+
+  Behaviour 
+    element : <span> <span></span> </span>
+    wrapper : <div></div>  
+
+    wrapWith(wrappper) => 
+    <div>
+      <span>
+        <span></span>
+      </span>
+    </div>
+
+    wrapWith(wrapper, false) =>
+    <div>
+      <span></span>
+    </div>
+
+    wrapWith() => TypeError JPLUS [ wrapWith ] : wrapper must be an HTMLElement
+*/
+globalAll.jplus.add("wrapWith", function on(this: HTMLElement, wrapper: HTMLElement, isWithChildren: boolean = true):HTMLElement {
+  if ( !(wrapper instanceof HTMLElement) ) throw new TypeError(`JPLUS [ wrapWith ] : wrapper must be an HTMLElement`)
+
+  wrapper.appendChild(this.cloneNode(isWithChildren));
+
+  if ( this.parentElement ) {
+    this.parentElement.insertBefore(wrapper, this);
+    this.parentElement.removeChild(this)
+  }
+
+  return wrapper
+})

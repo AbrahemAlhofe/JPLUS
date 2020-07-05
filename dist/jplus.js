@@ -352,6 +352,43 @@ globalAll.jplus.add("on", function on() {
   });
   this.addEventListener(events[0], callBack);
 });
+/*
+  wrapWith(wrapper: HTMLElement, isWithChildren: boolean)
+
+  Behaviour
+    element : <span> <span></span> </span>
+    wrapper : <div></div>
+
+    wrapWith(wrappper) =>
+    <div>
+      <span>
+        <span></span>
+      </span>
+    </div>
+
+    wrapWith(wrapper, false) =>
+    <div>
+      <span></span>
+    </div>
+
+    wrapWith() => TypeError JPLUS [ wrapWith ] : wrapper must be an HTMLElement
+*/
+
+globalAll.jplus.add("wrapWith", function on(wrapper, isWithChildren) {
+  if (isWithChildren === void 0) {
+    isWithChildren = true;
+  }
+
+  if (!(wrapper instanceof HTMLElement)) throw new TypeError("JPLUS [ wrapWith ] : wrapper must be an HTMLElement");
+  wrapper.appendChild(this.cloneNode(isWithChildren));
+
+  if (this.parentElement) {
+    this.parentElement.insertBefore(wrapper, this);
+    this.parentElement.removeChild(this);
+  }
+
+  return wrapper;
+});
 },{}],"C:/Users/USER/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -380,7 +417,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63785" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60988" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
