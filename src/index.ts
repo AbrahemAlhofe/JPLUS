@@ -230,3 +230,34 @@ globalAll.jplus.add('replaceWith', function replaceWith(
 
   return oldElement;
 })
+
+/*
+
+    prev( steps : number = 1 ): HTMLElement
+
+    Behavior :
+      <div>
+        <span class='box-3'></span>
+        <span class='box-2'></span>
+        <span class='box-1'></span>
+        <span id='myBox' ></span>
+      </div>
+
+      prev() => <span class='box-1'></span>
+
+      prev(2) => <span class='box-2'></span>
+
+      prev(5) => null
+*/
+globalAll.jplus.add('prev', function prev(
+  this: HTMLElement,
+  steps: number = 1
+): Element | null | undefined {
+  let currentElement: Element | null | undefined = this
+
+  for ( let i = 0; i < steps; i += 1 ) {
+    currentElement = currentElement?.previousElementSibling
+  }
+
+  return currentElement
+})

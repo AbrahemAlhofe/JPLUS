@@ -6,7 +6,7 @@
   "author": "abrahem ali alhofe <alhofeabrahem88@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "parcel watch build src/index.ts --out-file jplus.js",
+    "dev": "yarn parcel src/index.ts --out-file jplus.js",
     "server": "parcel serve lab/index.html",
     "build": "parcel build src/index.ts --out-file jplus.js"
   },
