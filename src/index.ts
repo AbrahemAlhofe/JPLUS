@@ -261,3 +261,34 @@ globalAll.jplus.add('prev', function prev(
 
   return currentElement
 })
+
+/*
+
+    next( steps : number = 1 ): HTMLElement
+
+    Behavior :
+      <div>
+        <span id='myBox'></span>
+        <span class='box-1'></span>
+        <span class='box-2'></span>
+        <span class='box-3'></span>
+      </div>
+
+      next() => <span class='box-1'></span>
+
+      next(2) => <span class='box-2'></span>
+
+      next(5) => null
+*/
+globalAll.jplus.add('next', function next(
+  this: HTMLElement,
+  steps: number = 1
+): Element | null | undefined {
+  let currentElement: Element | null | undefined = this
+
+  for ( let i = 0; i < steps; i += 1 ) {
+    currentElement = currentElement?.nextElementSibling
+  }
+
+  return currentElement
+})
