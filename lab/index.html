@@ -6,11 +6,11 @@
     <title>Test Jplus</title>
 </head>
 <body>
-    <span><span id='unWrap'>HTML</span></span>
+    <div><span>Hello</span></div>
 
     <script src='../dist/jplus.js'></script>
     <script>
-        console.log( $('span#unWrap').unWrap() )
+        console.log( $('div').replaceWith( $('<span id="alternative">Replaced</span>'), false ) )
     </script>
 </body>
 </html>

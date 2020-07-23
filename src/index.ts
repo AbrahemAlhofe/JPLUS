@@ -13,15 +13,12 @@ interface Object {
 */
 globalAll.jplus = class jplus {
   static add(methodName: string, method: Function): void {
-    // Inject method into HTMLElement
-    Object.prototype[methodName] = function () {
-      // if Object is not HTMLELement throw an TypeError
-      if ( this instanceof HTMLElement ) return method.call(this, ...arguments)
-      else throw new TypeError(`You couldn't use ${methodName} with non HTMLElement`)
-    }
+    HTMLElement.prototype[methodName] = method
 
     // Make method enumerable
-    Object.defineProperty(Object.prototype, methodName, { enumerable: false });
+    Object.defineProperty(HTMLElement.prototype, methodName, {
+      enumerable: false,
+    });
   }
 }
 
@@ -141,7 +138,7 @@ globalAll.jplus.add("on", function on(this: HTMLElement, ...args: any[]): void {
   const events = Array.from( args ).slice(0, args.length - 1)
   const callBack = args[ args.length - 1 ]
 
-  if ( events.length !== 1 ) return events.forEach((event) => on.call(this, event, callBack))
+  if ( events.length !== 1 ) return events.forEach((event) => on(this, event, callBack))
 
   this.addEventListener(events[0], callBack);
 })
@@ -198,4 +195,38 @@ globalAll.jplus.add('unWrap', function unWrap(this: HTMLElement): HTMLElement {
   parentElement.replaceWith(this);
   
   return parentElement
+})
+
+/*
+
+    replacWith( newElement: HTMLELement, withChildren : boolean = true): HTMLElement
+
+    Behavior :
+      <div><span></span></div>
+      newElement : <span id='newElement'>Replaced</span>
+
+      replaceWith( newElement ) => <span id='newElement'> Replaced </span>
+      replaceWith( newElement, false ) => <span id='newElement'> Replaced <span></span> </span>
+*/
+globalAll.jplus.add('replaceWith', function replaceWith(
+  this: HTMLElement,
+  newElement: HTMLElement,
+  withChildren: Boolean = true
+): HTMLElement {
+  const parentElement: HTMLElement | null= this.parentElement
+  const oldElement = this
+
+  if ( !parentElement ) throw new Error('JPLUS [ replaceWith ] : element should has parent')
+
+  parentElement.replaceChild( newElement, this )
+  
+  if ( !withChildren ) {
+    
+    const children: Element[] = Array.from(oldElement.children);
+    
+    children.forEach( child => newElement.appendChild(child) )
+
+  }
+
+  return oldElement;
 })

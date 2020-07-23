@@ -123,41 +123,6 @@ var global = arguments[3];
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-var __read = this && this.__read || function (o, n) {
-  var m = typeof Symbol === "function" && o[Symbol.iterator];
-  if (!m) return o;
-  var i = m.call(o),
-      r,
-      ar = [],
-      e;
-
-  try {
-    while ((n === void 0 || n-- > 0) && !(r = i.next()).done) {
-      ar.push(r.value);
-    }
-  } catch (error) {
-    e = {
-      error: error
-    };
-  } finally {
-    try {
-      if (r && !r.done && (m = i["return"])) m.call(i);
-    } finally {
-      if (e) throw e.error;
-    }
-  }
-
-  return ar;
-};
-
-var __spread = this && this.__spread || function () {
-  for (var ar = [], i = 0; i < arguments.length; i++) {
-    ar = ar.concat(__read(arguments[i]));
-  }
-
-  return ar;
-};
-
 var __values = this && this.__values || function (o) {
   var s = typeof Symbol === "function" && Symbol.iterator,
       m = s && o[s],
@@ -189,14 +154,9 @@ function () {
   function jplus() {}
 
   jplus.add = function (methodName, method) {
-    // Inject method into HTMLElement
-    Object.prototype[methodName] = function () {
-      // if Object is not HTMLELement throw an TypeError
-      if (this instanceof HTMLElement) return method.call.apply(method, __spread([this], arguments));else throw new TypeError("You couldn't use " + methodName + " with non HTMLElement");
-    }; // Make method enumerable
+    HTMLElement.prototype[methodName] = method; // Make method enumerable
 
-
-    Object.defineProperty(Object.prototype, methodName, {
+    Object.defineProperty(HTMLElement.prototype, methodName, {
       enumerable: false
     });
   };
@@ -348,7 +308,7 @@ globalAll.jplus.add("on", function on() {
   var events = Array.from(args).slice(0, args.length - 1);
   var callBack = args[args.length - 1];
   if (events.length !== 1) return events.forEach(function (event) {
-    return on.call(_this, event, callBack);
+    return on(_this, event, callBack);
   });
   this.addEventListener(events[0], callBack);
 });
@@ -405,6 +365,37 @@ globalAll.jplus.add('unWrap', function unWrap() {
   parentElement.replaceWith(this);
   return parentElement;
 });
+/*
+
+    replacWith( newElement: HTMLELement, withChildren : boolean = true): HTMLElement
+
+    Behavior :
+      <div><span></span></div>
+      newElement : <span id='newElement'>Replaced</span>
+
+      replaceWith( newElement ) => <span id='newElement'> Replaced </span>
+      replaceWith( newElement, false ) => <span id='newElement'> Replaced <span></span> </span>
+*/
+
+globalAll.jplus.add('replaceWith', function replaceWith(newElement, withChildren) {
+  if (withChildren === void 0) {
+    withChildren = true;
+  }
+
+  var parentElement = this.parentElement;
+  var oldElement = this;
+  if (!parentElement) throw new Error('JPLUS [ replaceWith ] : element should has parent');
+  parentElement.replaceChild(newElement, this);
+
+  if (!withChildren) {
+    var children = Array.from(oldElement.children);
+    children.forEach(function (child) {
+      return newElement.appendChild(child);
+    });
+  }
+
+  return oldElement;
+});
 },{}],"C:/Users/USER/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -433,7 +424,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62665" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64550" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
